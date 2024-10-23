@@ -11,16 +11,20 @@ def main(args):
         if item['type'] == 'NM_embedding':
             obj_folder_path = os.path.join(dataset_dir, item['path'])
             embedding_dir_path = os.path.join(obj_folder_path, "learned_embeddings")
-            if not os.path.exists(embedding_dir_path):
-                print("Optimizing embedding for {} in {}".format(item["category"], obj_folder_path))
-                normalized_masked_inverse_one(args.diffusion_model,
-                    obj_folder_path,
-                    args.inversion_train_bs,
-                    args.inversion_lr,
-                    embedding_dir_path,
-                    item["category"],
-                    args.inversion_steps,
-                    args.bg_lambda)
+            print("Optimizing embedding for {} in {}".format(item["category"], obj_folder_path))
+
+            if os.path.exists(embedding_dir_path):
+                print("***** Embedding already exists for {} in {}. *****".format(item["category"], obj_folder_path))
+                print("**********")
+
+            normalized_masked_inverse_one(args.diffusion_model,
+                obj_folder_path,
+                args.inversion_train_bs,
+                args.inversion_lr,
+                embedding_dir_path,
+                item["category"],
+                args.inversion_steps,
+                args.bg_lambda)
 
 if __name__ == "__main__":
     args = parse_args()

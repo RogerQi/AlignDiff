@@ -1,4 +1,8 @@
-# aligndiff_private
+# AlignDiff
+
+Official implementation for ECCV2024 paper "AlignDiff: Aligning Diffusion Models for General Few-Shot Segmentation".
+
+[[Paper](https://motion.cs.illinois.edu/papers/ECCV2024-Qiu-AlignDiff.pdf)]
 
 ## Setup dependency
 
@@ -9,14 +13,8 @@ cd ~
 git clone --recursive https://github.com/RogerQi/aligndiff
 ```
 
-Follow [INSTALL.md](./docs/INSTALL.md) to install required dependencies.
-
-Also, some Stable Diffusion repos on Hugging face requires credentials. After the installation
-is completed, `huggingface-cli` will be installed. Run the following command to login.
-
-```bash
-huggingface-cli login
-```
+Follow [INSTALL.md](./docs/INSTALL.md) to install required dependencies, and [PREPARE.md](.docs/PREPARE.md) to set up
+huggingface accounts and download sample FSS weights.
 
 ## Step 1: build a prompt bank with texts or masked inversion
 
@@ -33,8 +31,12 @@ layout containing two categories and a JSON file is provided in `./examples_data
 To optimize the per-object embedding for image-mask pairs in the provided datasets, run
 
 ```bash
-python -m scripts.image_mask_inversion --dataset_dir ./example
+python -m scripts.image_mask_inversion --dataset_dir ./example_dataset
 ```
+
+On a single RTX4090, this step takes ~3mins.
+
+**Tips:** the invesion process is quite sensitive to `bg_lambda`. If it ends up generating degenerate samples, you can try tweaking this parameter.
 
 ## Step 2: generate images and (coarse) masks
 
@@ -55,5 +57,15 @@ CUDA_VISIBLE_DEVICES=0,1,2,3 python -m scripts.diffuse_img_attention --dataset_d
 We use the following command to refine masks with few-shot conditioning.
 
 ```bash
-python -m scripts.mask_generation --dataset_dir ./example_dataset
+python -m scripts.mask_generation --dataset_dir ./example_dataset --fss_ckpt_path pretrained_weights/voc_2_resnet101_5shot_78.89.pth
 ```
+
+TODOs
+
+- [x] Switch to modern diffusers
+- [ ] Use xformers to speed up inversion / generation
+- [ ] Integrate LLM / CLIPRetrieval to augment text prompts
+- [ ] Switch to a better few-shot segmenter in mask generation (more recent networks & more pre-training data?)
+- [ ] Integrate SAM to further refine mask generation?
+- [ ] Add image / text template augmentations to the NM inversion to further stablize the training process.
+- [ ] Make a prettier tqdm pbar during image-attention synthesis.
