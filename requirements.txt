@@ -1,0 +1,14 @@
+diffusers
+torchvision
+transformers>=4.25.1
+ftfy
+tensorboard
+Jinja2
+opencv-python
+Pillow
+tqdm
+matplotlib
+ipython
+jupyter
+accelerate>=0.16.0
+
