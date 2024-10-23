@@ -462,6 +462,11 @@ def normalized_masked_inverse_one(pretrained_model_name_or_path: str,
     if accelerator.is_main_process:
         if output_dir is not None:
             os.makedirs(output_dir, exist_ok=True)
+    
+    # Download
+    diffusion_pipeline = StableDiffusionPipeline.from_pretrained(pretrained_model_name_or_path, torch_dtype=torch.float16).to('cpu')
+    del diffusion_pipeline
+    torch.cuda.empty_cache()
 
     # Load tokenizer
     tokenizer = CLIPTokenizer.from_pretrained(pretrained_model_name_or_path, subfolder="tokenizer")
