@@ -1,0 +1,3 @@
+[submodule "aligndiff/SSP_efficient"]
+	path = aligndiff/SSP_efficient
+	url = https://github.com/RogerQi/SSP_efficient

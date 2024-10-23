@@ -1,0 +1,34 @@
+{
+    "prompt_dataset": [
+        {
+            "type": "text",
+            "text": "A photo of a dog",
+            "category": "dog",
+            "D_good_dir": "./dog"
+        },
+        {
+            "type": "text",
+            "text": "A playful dog of the golden retriever breed, standing in a vibrant outdoor setting with a mix of grassy fields, colorful flowers, and a few trees in the background. The dog is energetic, with its tongue out and tail wagging, looking joyful in the warm sunlight. The sky above is bright blue with a few scattered clouds.",
+            "category": "dog",
+            "D_good_dir": "./dog"
+        },
+        {
+            "type": "text",
+            "text": "A photo of an albatross",
+            "category": "albatross",
+            "D_good_dir": "./albatross"
+        },
+        {
+            "type": "NM_embedding",
+            "path": "./albatross",
+            "category": "albatross",
+            "D_good_dir": "./albatross"
+        },
+        {
+            "type": "NM_embedding",
+            "path": "./dog",
+            "category": "dog",
+            "D_good_dir": "./dog"
+        }
+    ]
+}
